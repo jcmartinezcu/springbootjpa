@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.hibernate.engine.transaction.jta.platform.internal.OC4JJtaPlatform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,8 +27,23 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		personalizedQueries();
+		personalizedQueries2();
 		
+	}
+
+	@Transactional(readOnly = true)
+	public void personalizedQueries2(){
+
+		System.out.println("================= Consulta por objeto persona y lenguaje de programacion =================");
+		List<Object[]> personRegs = repository.findAllMixPerson();
+
+		personRegs.forEach(reg->{
+			System.out.println("programmingLanguage=" +  reg[1] + ", person=" + reg[0]);
+		});
+
+		System.out.println("Consulta que puebla y devuelve ogjeto entity de una instancia personalizada");
+		List<Person> persons = repository.findAllObjectPersonPersonalized();
+		persons.forEach(System.out::println);
 	}
 
 	@Transactional(readOnly = true)
