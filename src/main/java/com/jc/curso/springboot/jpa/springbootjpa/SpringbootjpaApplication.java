@@ -26,8 +26,29 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		create();
+		update();
 		
+	}
+
+	@Transactional
+	public void update(){
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Ingrese el id de la persona:");
+		Long id = scanner.nextLong();
+
+		Optional<Person> optionalPerson = repository.findById(id);
+
+		optionalPerson.ifPresent(person -> {
+			System.out.println(person);
+			System.out.println("Ingrese el lenguaje de programación:");
+			String programmingLanguage = scanner.next();
+			person.setProgrammingLanguaje(programmingLanguage);
+			Person personDb= repository.save(person);
+			System.out.println(personDb);
+
+		});
+
+		scanner.close();
 	}
 
 	@Transactional
