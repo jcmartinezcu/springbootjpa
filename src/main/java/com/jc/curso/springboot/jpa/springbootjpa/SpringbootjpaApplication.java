@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.jc.curso.springboot.jpa.springbootjpa.DTO.PersonDto;
 import com.jc.curso.springboot.jpa.springbootjpa.entities.Person;
 import com.jc.curso.springboot.jpa.springbootjpa.repositories.PersonRepository;
 
@@ -44,6 +45,10 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 		System.out.println("Consulta que puebla y devuelve ogjeto entity de una instancia personalizada");
 		List<Person> persons = repository.findAllObjectPersonPersonalized();
 		persons.forEach(System.out::println);
+
+		System.out.println("consulta que puebla y devuelve objeto dto de una clase personalizada");
+		List<PersonDto> personDto = repository.findAllPersonDto();
+		personDto.forEach(System.out::println);
 	}
 
 	@Transactional(readOnly = true)
