@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.hibernate.engine.transaction.jta.platform.internal.OC4JJtaPlatform;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -28,7 +28,28 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		personalizedQueriesDistinct();
+		peronalizedQueriesConcatUpperAndLowerCase();
+		
+	}
+
+	@Transactional(readOnly = true)
+	public void peronalizedQueriesConcatUpperAndLowerCase(){
+
+		System.out.println("(================= Consulta nombre y apellidos de personas =================");
+		List<String> names = repository.findAllFullNameConcat();
+		names.forEach(System.out::println);
+
+		System.out.println("(================= Consulta nombre y apellidos mayusculas =================  ");
+		names = repository.findAllFullNameConcatUpper();
+		names.forEach(System.out::println);
+
+		System.out.println("(================= Consulta nombre y apellidos minusculas =================  ");
+		names = repository.findAllFullNameConcatLower();
+		names.forEach(System.out::println);
+
+		System.out.println("(================= Consulta personalizada upper y lower case =================  ");
+		List<Object[]> regs = repository.findAllPersonDataListCase();
+		regs.forEach(reg -> System.out.println("id=" + reg[0] + ", nombre=" + reg[1] + ", apellido=" + reg[2] + ", lenguaje=" + reg[3]));
 		
 	}
 
