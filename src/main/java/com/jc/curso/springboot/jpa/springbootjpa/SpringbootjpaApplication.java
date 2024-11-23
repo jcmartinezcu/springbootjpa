@@ -28,8 +28,25 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		queriesFunctionAggregation();
+		subQueries();
 		
+	}
+
+	@Transactional(readOnly = true)
+	public void subQueries(){
+
+		System.out.println("================= Consultas por el nombre mas corto y su largo =================");
+		List<Object[]> registers = repository.getShorterName();
+		registers.forEach(reg ->{
+			String name = (String) reg[0];
+			Integer length = (Integer) reg[1];
+			System.out.println("name=" + name + ", length="+length);
+		});
+
+		System.out.println("================= Consultas para obtener el ultimo registro de persona=================");
+		Optional<Person> optionaPerson = repository.getLastRegistration();
+		optionaPerson.ifPresent(System.out::println);
+
 	}
 
 	@Transactional(readOnly = true)
@@ -69,6 +86,7 @@ public class SpringbootjpaApplication implements CommandLineRunner{
 		Object[] resumeReg = (Object[]) repository.getResumeAggregationFunction();
 		System.out.println("min="+ resumeReg[0] +", max="+resumeReg[1]+
 		", sum="+ resumeReg[2]+", avg="+ resumeReg[3]+", count="+resumeReg[4]);
+
 	}
 
 	@Transactional(readOnly = true)
